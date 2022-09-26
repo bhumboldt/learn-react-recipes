@@ -1,9 +1,12 @@
+import { Header } from "./components/header/header";
+import { RecipeViewList } from "./components/recipe-view-list/recipe-view-list";
 
 function App() {
   return (
-    <div className="App">
-      Hello, world!
-    </div>
+    <>
+      <Header></Header>
+      <RecipeViewList></RecipeViewList>
+    </>
   );
 }
 

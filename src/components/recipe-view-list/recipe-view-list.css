@@ -1,0 +1,13 @@
+.recipe-view-list {
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+div:has(.recipe-view-list):first-child {
+  margin-top: 8px;
+}
