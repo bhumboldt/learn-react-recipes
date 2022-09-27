@@ -6,8 +6,5 @@
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
-}
-
-div:has(.recipe-view-list):first-child {
-  margin-top: 8px;
+  padding: 8px;
 }
