@@ -6,6 +6,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Root } from './routes/root';
 import { RecipeViewList } from './components/recipe-view-list/recipe-view-list';
 import { AddRecipe } from './routes/add-recipe';
+import { Provider } from 'react-redux';
+import store from './state/store';
 
 const router = createBrowserRouter([
   {
@@ -27,7 +29,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
 

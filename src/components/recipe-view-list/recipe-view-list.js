@@ -1,12 +1,16 @@
+import { useSelector } from 'react-redux';
+import { selectRecipesFeature } from '../../state/recipes/recipe-selectors';
 import { Recipe } from '../recipe/recipe';
 import './recipe-view-list.css';
 
 export const RecipeViewList = () => {
+  const recipes = useSelector(selectRecipesFeature);
+
   return (
     <div className="recipe-view-list">
-      <Recipe num='1'></Recipe>
-      <Recipe num='2'></Recipe>
-      <Recipe num='3'></Recipe>
+      {
+        recipes.map(recipe => <Recipe num={recipe.id}></Recipe>)
+      }
     </div>
   )
 }
