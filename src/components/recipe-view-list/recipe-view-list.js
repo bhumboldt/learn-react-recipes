@@ -9,7 +9,7 @@ export const RecipeViewList = () => {
   return (
     <div className="recipe-view-list">
       {
-        recipes.map(recipe => <Recipe key={recipe.id} num={recipe.id}></Recipe>)
+        recipes.map(recipe => <Recipe key={recipe.id} {...recipe}></Recipe>)
       }
     </div>
   )

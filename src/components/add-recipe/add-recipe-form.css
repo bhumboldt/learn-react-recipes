@@ -20,3 +20,7 @@
 #upload-cover-image-button {
   width: 100%;
 }
+
+Button:last-of-type {
+  margin-top: 8px;
+}
