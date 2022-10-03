@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectRecipeById } from "../../state/recipes/recipe-selectors";
 import { createRecipeThunk, updateRecipeThunk } from "../../state/recipes/recipe-thunks";
+import { actionErrored } from '../../state/app/app-slice';
 import './add-recipe-form.css';
 
 export const AddRecipeForm = () => {
@@ -34,6 +35,10 @@ export const AddRecipeForm = () => {
   const recipeTimeChanged = (event) => setRecipeTime(event.target.value);
 
   const submitRecipeForm = () => {
+    if (!description || !name || !steps.length || !recipeTime || steps.some(step => !step.description)) {
+      return dispatch(actionErrored('All required fields need values!'));
+    }
+
     const recipeInfo = {
       ...recipe,
       description,
@@ -43,7 +48,6 @@ export const AddRecipeForm = () => {
       time: recipeTime
     };
     dispatch(recipe ? updateRecipeThunk(recipeInfo) : createRecipeThunk(recipeInfo));
-
     navigate('/view-recipes');
   }
 
@@ -77,14 +81,14 @@ export const AddRecipeForm = () => {
             </Button>
           </label>
 
-          <TextField variant="outlined" label='Recipe Name' value={name} onChange={nameChange} required />
-          <TextField variant="outlined" label='Recipe Description' multiline={true} value={description} onChange={descriptionChange} required />
-          <TextField variant="outlined" label='Time (in minutes) to Make' type="number" value={recipeTime} onChange={recipeTimeChanged} />
+          <TextField variant="outlined" label='Recipe Name' value={name} onChange={nameChange} required error={!name} helperText={!name ? "Recipe name is required" : ''} />
+          <TextField variant="outlined" label='Recipe Description' multiline={true} value={description} onChange={descriptionChange} required error={!description} helperText={!description ? 'Description is required' : ''} />
+          <TextField variant="outlined" label='Time (in minutes) to Make' type="number" value={recipeTime} onChange={recipeTimeChanged} error={!recipeTime} helperText={!recipeTime ? 'Time is required' : ''}  />
 
           <Typography variant="h6">Steps</Typography>
           {
             steps.map((step, index) => (
-              <TextField variant="outlined" label={`Step ${index + 1} Description`} key={step.id} value={step.description} onChange={(event) => stepDescriptionChanged(event, step.id)} />
+              <TextField variant="outlined" label={`Step ${index + 1} Description`} key={step.id} value={step.description} error={!step.description} helperText={!step.description ? 'Step description is required' : ''} onChange={(event) => stepDescriptionChanged(event, step.id)} />
             ))
           }
 

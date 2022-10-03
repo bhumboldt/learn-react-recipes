@@ -15,6 +15,12 @@ const recipeSlice = createSlice({
         ...state,
         selectedId: payload
       }
+    },
+    recipeIdCleared(state, { payload }) {
+      return {
+        ...state,
+        selectedId: null
+      }
     }
   },
   extraReducers: builder => {
@@ -38,5 +44,5 @@ const recipeSlice = createSlice({
   }
 });
 
-export const { createRecipe, updateRecipe, deleteRecipe, selectRecipeId } = recipeSlice.actions;
+export const { createRecipe, updateRecipe, deleteRecipe, selectRecipeId, recipeIdCleared } = recipeSlice.actions;
 export default recipeSlice.reducer;

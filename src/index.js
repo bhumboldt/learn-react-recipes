@@ -4,11 +4,11 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Root } from './routes/root';
-import { RecipeList } from './components/recipe-list/recipe-list';
 import { AddRecipe } from './routes/add-recipe';
 import { Provider } from 'react-redux';
 import store from './state/store';
 import { ViewRecipe } from './routes/view-recipe';
+import { ViewRecipesRoute } from './routes/view-recipes';
 
 const router = createBrowserRouter([
   {
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'view-recipes',
-        element: <RecipeList />
+        element: <ViewRecipesRoute />
       },
       {
         path: 'add-recipe',
