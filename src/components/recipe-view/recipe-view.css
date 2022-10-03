@@ -1,0 +1,22 @@
+.recipe-view-card {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto 0 auto;
+}
+
+.recipe-view-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding: 8px;
+}
+
+.recipe-step {
+  margin-bottom: 8px;
+  font-size: 20px;
+}
+
+.back-button {
+  width: 30px;
+}

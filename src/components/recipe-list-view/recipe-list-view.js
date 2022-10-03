@@ -1,20 +1,24 @@
 import { AccessTimeOutlined, Grade, MoreVert } from "@mui/icons-material";
-import { Card, CardContent, CardHeader, CardMedia, Typography, IconButton, Menu, MenuItem } from "@mui/material"
+import { Card, CardContent, CardHeader, CardMedia, Typography, IconButton, Menu, MenuItem, CardActions, Button } from "@mui/material"
 import { Stack } from "@mui/system";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { selectRecipeId } from "../../state/recipes/recipe-slice";
 import { removeRecipeThunk } from "../../state/recipes/recipe-thunks";
 import { DeleteConfirmationDialog } from "../delete-confirmation-dialog/delete-confirmation-dialog";
-import './recipe.css';
+import './recipe-list-view.css';
 
-export const Recipe = ({ name, description, cover_image, time, id }) => {
+export const RecipeListView = ({ name, description, cover_image, time, id }) => {
   const dispatch = useDispatch();
+  const navigation = useNavigate();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -29,9 +33,15 @@ export const Recipe = ({ name, description, cover_image, time, id }) => {
     setDeleteDialogOpen(false);
   }
 
-  const handleDeleteClicked = () => {
+  const handleDeleteClicked = (event) => {
+    event.stopPropagation();
     setAnchorEl(null);
     setDeleteDialogOpen(true);
+  }
+
+  const handleViewClick = () => {
+    dispatch(selectRecipeId(id));
+    navigation(`/recipes/${id}/view`, { replace: true });
   }
 
   return (
@@ -87,6 +97,9 @@ export const Recipe = ({ name, description, cover_image, time, id }) => {
         
         <Typography variant="p">{description}</Typography>
       </CardContent>
+      <CardActions>
+        <Button variant="contained" onClick={handleViewClick}>View</Button>
+      </CardActions>
     </Card>
   )
 }

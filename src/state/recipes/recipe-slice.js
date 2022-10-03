@@ -2,12 +2,21 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createRecipeThunk, fetchRecipesThunk, removeRecipeThunk, updateRecipeThunk } from "./recipe-thunks";
 
 const initialState = {
-  recipes: []
+  recipes: [],
+  selectedId: null
 };
 
 const recipeSlice = createSlice({
   name: 'recipes',
   initialState,
+  reducers: {
+    selectRecipeId(state, { payload }) {
+      return {
+        ...state,
+        selectedId: payload
+      }
+    }
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchRecipesThunk.fulfilled, (state, { payload }) => ({
@@ -29,5 +38,5 @@ const recipeSlice = createSlice({
   }
 });
 
-export const { createRecipe, updateRecipe, deleteRecipe } = recipeSlice.actions;
+export const { createRecipe, updateRecipe, deleteRecipe, selectRecipeId } = recipeSlice.actions;
 export default recipeSlice.reducer;

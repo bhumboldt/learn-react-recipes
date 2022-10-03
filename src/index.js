@@ -4,10 +4,11 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Root } from './routes/root';
-import { RecipeViewList } from './components/recipe-view-list/recipe-view-list';
+import { RecipeList } from './components/recipe-list/recipe-list';
 import { AddRecipe } from './routes/add-recipe';
 import { Provider } from 'react-redux';
 import store from './state/store';
+import { ViewRecipe } from './routes/view-recipe';
 
 const router = createBrowserRouter([
   {
@@ -16,11 +17,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'view-recipes',
-        element: <RecipeViewList />
+        element: <RecipeList />
       },
       {
         path: 'add-recipe',
         element: <AddRecipe />
+      },
+      {
+        path: 'recipes/:id/view',
+        element: <ViewRecipe />
       }
     ]
   }
