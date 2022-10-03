@@ -1,23 +1,29 @@
 import { Card, CardHeader, Button, CardContent, TextField, Typography, CardMedia } from "@mui/material"
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { createRecipeThunk } from "../../state/recipes/recipe-thunks";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { selectRecipeById } from "../../state/recipes/recipe-selectors";
+import { createRecipeThunk, updateRecipeThunk } from "../../state/recipes/recipe-thunks";
 import './add-recipe-form.css';
 
 export const AddRecipeForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const [name, setName] = useState('');
+  const recipe = useSelector(selectRecipeById);
+
+  const [steps, setSteps] = useState(recipe ? recipe.steps : []);
+  const [name, setName] = useState(recipe ? recipe.name : '');
+  const [description, setDescription] = useState(recipe ? recipe.description : '');
+  const [coverImage, setCoverImage] = useState(recipe ? recipe.cover_image : '');
+  const [recipeTime, setRecipeTime] = useState(recipe ? recipe.time : 0);
+
   const nameChange = (event) => setName(event.target.value);
-
-  const [description, setDescription] = useState('');
   const descriptionChange = (event) => setDescription(event.target.value);
 
-  const [steps, setSteps] = useState([]);
   const stepAdded = () => setSteps([...steps, { id: new Date().getTime(), description: '' }]);
   const stepDescriptionChanged = (event, id) => setSteps(steps.map(step => step.id === id ? { ...step, description: event.target.value } : step))
 
-  const [coverImage, setCoverImage] = useState('');
   const imageSelected = (event) => {
     const file = event.target.files[0];
     const fileReader = new FileReader();
@@ -25,24 +31,27 @@ export const AddRecipeForm = () => {
     fileReader.readAsDataURL(file);
   };
 
-  const [recipeTime, setRecipeTime] = useState(0);
   const recipeTimeChanged = (event) => setRecipeTime(event.target.value);
 
   const submitRecipeForm = () => {
-    dispatch(createRecipeThunk({
+    const recipeInfo = {
+      ...recipe,
       description,
       name,
       steps,
       cover_image: coverImage,
       time: recipeTime
-    }));
+    };
+    dispatch(recipe ? updateRecipeThunk(recipeInfo) : createRecipeThunk(recipeInfo));
+
+    navigate('/view-recipes');
   }
 
   return (
     <div className="recipe-form-container">
       <Card className="recipe-form-card">
        <CardHeader
-          title='Add new Recipe'
+          title={ recipe ? 'Edit Recipe' : 'Add new Recipe' }
         >
         </CardHeader>
         <CardContent className="recipe-form-card-content">
@@ -64,7 +73,7 @@ export const AddRecipeForm = () => {
           />
           <label htmlFor="cover-image-upload">
             <Button color="secondary" variant="contained" component="span" id="upload-cover-image-button">
-              Upload Cover Image
+              { coverImage ? 'Change Cover Image' : 'Upload Cover Image' }
             </Button>
           </label>
 

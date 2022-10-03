@@ -14,10 +14,11 @@ export const RecipeListView = ({ name, description, cover_image, time, id }) => 
   const navigation = useNavigate();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-
   const [anchorEl, setAnchorEl] = useState(null);
+
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
+
+  const handleIconButtonClick = (event) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
@@ -31,18 +32,23 @@ export const RecipeListView = ({ name, description, cover_image, time, id }) => 
     }
 
     setDeleteDialogOpen(false);
-  }
+  };
 
   const handleDeleteClicked = (event) => {
     event.stopPropagation();
     setAnchorEl(null);
     setDeleteDialogOpen(true);
-  }
+  };
 
   const handleViewClick = () => {
     dispatch(selectRecipeId(id));
-    navigation(`/recipes/${id}/view`, { replace: true });
-  }
+    navigation(`/recipes/${id}/view`);
+  };
+
+  const handleEditClick = () => {
+    dispatch(selectRecipeId(id));
+    navigation(`/recipes/${id}/edit`);
+  };
 
   return (
     <Card className="recipe">
@@ -50,7 +56,7 @@ export const RecipeListView = ({ name, description, cover_image, time, id }) => 
         title={name}
         action={
           <>
-            <IconButton aria-label="settings" onClick={handleClick}>
+            <IconButton aria-label="settings" onClick={handleIconButtonClick}>
               <MoreVert />
             </IconButton>
             <Menu
@@ -66,7 +72,7 @@ export const RecipeListView = ({ name, description, cover_image, time, id }) => 
                 horizontal: 'left'
               }}
             >
-              <MenuItem>Edit</MenuItem>
+              <MenuItem onClick={handleEditClick}>Edit</MenuItem>
               <MenuItem color="error" onClick={handleDeleteClicked}>
                 <Typography variant="p" color="error">Delete</Typography>
               </MenuItem>
