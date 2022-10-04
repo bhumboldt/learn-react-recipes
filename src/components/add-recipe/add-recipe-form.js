@@ -6,6 +6,7 @@ import { selectRecipeById } from "../../state/recipes/recipe-selectors";
 import { createRecipeThunk, updateRecipeThunk } from "../../state/recipes/recipe-thunks";
 import { actionErrored } from '../../state/app/app-slice';
 import './add-recipe-form.css';
+import { createRecipeObject } from "../../utils/create-recipe-object";
 
 export const AddRecipeForm = () => {
   const dispatch = useDispatch();
@@ -22,8 +23,8 @@ export const AddRecipeForm = () => {
   const nameChange = (event) => setName(event.target.value);
   const descriptionChange = (event) => setDescription(event.target.value);
 
-  const stepAdded = () => setSteps([...steps, { id: new Date().getTime(), description: '' }]);
-  const stepDescriptionChanged = (event, id) => setSteps(steps.map(step => step.id === id ? { ...step, description: event.target.value } : step))
+  const stepAdded = () => setSteps(prev => [...prev, { id: new Date().getTime(), description: '' }]);
+  const stepDescriptionChanged = (event, id) => setSteps(prev => prev.map(step => step.id === id ? { ...step, description: event.target.value } : step))
 
   const imageSelected = (event) => {
     const file = event.target.files[0];
@@ -32,24 +33,17 @@ export const AddRecipeForm = () => {
     fileReader.readAsDataURL(file);
   };
 
+  const recipeFormIsValid = (description, name, steps, recipeTime) => (description && name && recipeTime && steps.length && !steps.some(step => !step.description));
+  const submitRecipe = (description, name, steps, recipeTime, coverImage, recipe) => {
+    const recipeObj = createRecipeObject(description, name, steps, recipeTime, coverImage, recipe);
+    dispatch(recipe ? updateRecipeThunk(recipeObj) : createRecipeThunk(recipeObj));
+    navigate('/view-recipes');
+  };
   const recipeTimeChanged = (event) => setRecipeTime(event.target.value);
 
-  const submitRecipeForm = () => {
-    if (!description || !name || !steps.length || !recipeTime || steps.some(step => !step.description)) {
-      return dispatch(actionErrored('All required fields need values!'));
-    }
-
-    const recipeInfo = {
-      ...recipe,
-      description,
-      name,
-      steps,
-      cover_image: coverImage,
-      time: recipeTime
-    };
-    dispatch(recipe ? updateRecipeThunk(recipeInfo) : createRecipeThunk(recipeInfo));
-    navigate('/view-recipes');
-  }
+  const submitClicked = () => recipeFormIsValid(description, name, steps, recipeTime)
+    ? submitRecipe(description, name, steps, recipeTime, coverImage, recipe)
+    : dispatch(actionErrored('All required fields need values!'));
 
   return (
     <div className="recipe-form-container">
@@ -93,7 +87,7 @@ export const AddRecipeForm = () => {
           }
 
           <Button color="secondary" variant="contained" onClick={stepAdded}>Add New Step</Button>
-          <Button variant="contained" onClick={submitRecipeForm}>Submit</Button>
+          <Button variant="contained" onClick={submitClicked}>Submit</Button>
         </CardContent>
       </Card>
     </div>
