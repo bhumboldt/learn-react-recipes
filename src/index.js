@@ -3,17 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Root } from './routes/root';
-import { AddRecipe } from './routes/add-recipe';
+import { RootRoute } from './routes/root-route';
+import { AddRecipeRoute } from './routes/add-recipe-route';
 import { Provider } from 'react-redux';
-import store from './state/store';
-import { ViewRecipe } from './routes/view-recipe';
-import { ViewRecipesRoute } from './routes/view-recipes';
+import { setupStore } from './state/store';
+import { ViewRecipeRoute } from './routes/view-recipe-route';
+import { ViewRecipesRoute } from './routes/view-recipes-route';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
+    element: <RootRoute />,
     children: [
       {
         path: 'view-recipes',
@@ -21,15 +21,15 @@ const router = createBrowserRouter([
       },
       {
         path: 'add-recipe',
-        element: <AddRecipe />
+        element: <AddRecipeRoute />
       },
       {
         path: 'recipes/:id/view',
-        element: <ViewRecipe />
+        element: <ViewRecipeRoute />
       },
       {
         path: 'recipes/:id/edit',
-        element: <AddRecipe />
+        element: <AddRecipeRoute />
       }
     ]
   }
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <Provider store={setupStore({})}>
       <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>
