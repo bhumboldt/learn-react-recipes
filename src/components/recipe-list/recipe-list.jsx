@@ -2,15 +2,16 @@ import { useSelector } from 'react-redux';
 import { selectRecipes } from '../../state/recipes/recipe-selectors';
 import { RecipeListView } from '../recipe-list-view/recipe-list-view';
 import './recipe-list.css';
+import React from 'react';
 
 export const RecipeList = () => {
-  const recipes = useSelector(selectRecipes);
+	const recipes = useSelector(selectRecipes);
 
-  return (
-    <div className="recipe-list">
-      {
-        recipes.map(recipe => <RecipeListView key={recipe.id} {...recipe}></RecipeListView>)
-      }
-    </div>
-  )
-}
+	return (
+		<div className="recipe-list">
+			{
+				recipes.map(recipe => <RecipeListView key={recipe.id} {...recipe}></RecipeListView>)
+			}
+		</div>
+	);
+};

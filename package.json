@@ -44,6 +44,13 @@
   },
   "devDependencies": {
     "@testing-library/react": "^13.4.0",
+    "eslint": "^8.24.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.3.0",
+    "eslint-plugin-promise": "^6.0.1",
+    "eslint-plugin-react": "^7.31.8",
     "react-test-renderer": "^18.2.0"
   }
 }

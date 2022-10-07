@@ -1,4 +1,4 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createSelector } from '@reduxjs/toolkit';
 
 const selectAppFeatureState = createSelector(state => state, state => state.app);
 export const selectShowSuccessSnackbar = createSelector(selectAppFeatureState, state => state.showSuccessSnackbar);
