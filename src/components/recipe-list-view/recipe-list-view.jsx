@@ -1,4 +1,4 @@
-import { AccessTimeOutlined, Grade, MoreVert } from '@mui/icons-material';
+import { AccessTimeOutlined, MoreVert } from '@mui/icons-material';
 import { Card, CardContent, CardHeader, CardMedia, Typography, IconButton, Menu, MenuItem, CardActions, Button } from '@mui/material';
 import { Stack } from '@mui/system';
 import React, { useState } from 'react';
@@ -96,15 +96,12 @@ export const RecipeListView = ({ name, description, cover_image, time, id }) => 
 				<Stack className="card-info" direction="row" alignItems="center" gap="8px">
 					<AccessTimeOutlined></AccessTimeOutlined>
 					<Typography variant="p">{time} min.</Typography>
-
-					<Grade></Grade>
-					<Typography variant="p">4.2 / 5</Typography>
 				</Stack>
         
 				<Typography variant="p">{description}</Typography>
 			</CardContent>
 			<CardActions>
-				<Button variant="contained" onClick={handleViewClick}>View</Button>
+				<Button className='view-button' variant="contained" onClick={handleViewClick}>View</Button>
 			</CardActions>
 		</Card>
 	);
